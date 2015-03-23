@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
+angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'camera.service'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -36,30 +36,30 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
     templateUrl: "templates/tabs.html"
   })
 
-  .state('tab.chats', {
-      url: '/chats',
+  .state('tab.fights', {
+      url: '/fights',
       views: {
-        'tab-chats': {
-          templateUrl: 'templates/tab-chats.html',
-          controller: 'ChatsCtrl'
+        'tab-fights': {
+          templateUrl: 'templates/tab-fights.html',
+          controller: 'fightsCtrl'
         }
       }
     })
 
-    .state('tab.chat-detail', {
-      url: '/chats/:chatId',
+    .state('tab.fight-detail', {
+      url: '/fights/:fightId',
       views: {
-        'tab-chats': {
-          templateUrl: 'templates/chat-detail.html',
-          controller: 'ChatDetailCtrl'
+        'tab-fights': {
+          templateUrl: 'templates/fight-detail.html',
+          controller: 'fightDetailCtrl'
         }
       }
     })
 
    .state('tab.image-detail', {
-      url: '/chats/:chatId/images/:imageId',
+      url: '/fights/:fightId/images/:imageId',
       views: {
-        'tab-chats': {
+        'tab-fights': {
           templateUrl: 'templates/image-detail.html',
           controller: 'ImageDetailCtrl'
         }
@@ -68,6 +68,6 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
   
 
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/tab/chats');
+  $urlRouterProvider.otherwise('/tab/fights');
 
 });

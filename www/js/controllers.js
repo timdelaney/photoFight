@@ -1,11 +1,11 @@
 angular.module('starter.controllers', [])
 
 
-.controller('ChatsCtrl', function($scope, Chats, $ionicModal) {
-  $scope.chats = Chats.all();
+.controller('fightsCtrl', function($scope, fights, camera, $ionicModal) {
+  $scope.fights = fights.all();
   
-  $scope.remove = function(chat) {
-    Chats.remove(chat);
+  $scope.remove = function(fight) {
+    fights.remove(fight);
   }
 
   $ionicModal.fromTemplateUrl('contact-modal.html', {
@@ -19,12 +19,12 @@ angular.module('starter.controllers', [])
     $scope.modal.show()
   };
 
-  $scope.closeModal = function(chat) {
+  $scope.closeModal = function(fight) {
     $scope.modal.hide();
-    Chats.add(chat);
-    chat.name = null;
-    chat.face = null;
-    chat.lastText = null;
+    fights.add(fight);
+    fight.name = null;
+    fight.face = null;
+    fight.lastText = null;
   };
 
   $scope.$on('$destroy', function() {
@@ -32,9 +32,9 @@ angular.module('starter.controllers', [])
   });
 })
 
-.controller('ChatDetailCtrl', function($scope, $stateParams, Chats, $ionicModal) {
-  $scope.images = Chats.getImages($stateParams.chatId);
-  $scope.chatId = $stateParams.chatId;
+.controller('fightDetailCtrl', function($scope, $stateParams, fights, camera, $ionicModal) {
+  $scope.images = fights.getImages($stateParams.fightId);
+  $scope.fightId = $stateParams.fightId;
   $ionicModal.fromTemplateUrl('contender-modal.html', {
     scope: $scope,
     animation: 'slide-in-up'
@@ -48,18 +48,32 @@ angular.module('starter.controllers', [])
 
   $scope.closeModal = function(image) {
     $scope.modal.hide();
-    Chats.addImage(image, $stateParams.chatId);
+    fights.addImage(image, $stateParams.fightId);
     image.imageURL = null;
     image.caption = null;
   };
-
+  $scope.upVote = function(image, fightId, $event) {
+    $event.preventDefault();
+    fights.upVoteImage(image.id, fightId);
+  };
+  $scope.downVote = function(image, fightId, $event) {
+    $event.preventDefault();
+    fights.downVoteImage(image.id, fightId);
+  };
+  $scope.getPhoto = function() {
+    Camera.getPicture().then(function(imageURI) {
+      console.log(imageURI);
+    }, function(err) {
+      console.err(err);
+    });
+  };
   $scope.$on('$destroy', function() {
     $scope.modal.remove();
   });
 })
 
-.controller('ImageDetailCtrl', function($scope, $stateParams, Chats) {
-   $scope.image = Chats.getImage($stateParams.imageId, $stateParams.chatId);
+.controller('ImageDetailCtrl', function($scope, $stateParams, fights) {
+   $scope.image = fights.getImage($stateParams.imageId, $stateParams.fightId);
 })
 
 
